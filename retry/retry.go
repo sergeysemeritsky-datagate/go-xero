@@ -28,6 +28,8 @@ func Do(f func() error, maxSingleWait, maxTotalWait time.Duration, onRetry func(
 				}
 
 				time.Sleep(resp.Limits.RetryAfter())
+			} else {
+				return err
 			}
 		} else {
 			return nil
