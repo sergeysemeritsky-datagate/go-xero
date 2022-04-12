@@ -28,22 +28,22 @@ type AccountsResponse struct {
 }
 
 type Account struct {
-	AccountID               string  `json:"AccountID"`
-	Code                    string  `json:"Code"`
-	Name                    string  `json:"Name"`
-	Status                  string  `json:"Status"`
-	Type                    string  `json:"Type"`
-	TaxType                 string  `json:"TaxType"`
-	Description             string  `json:"Description"`
-	Class                   string  `json:"Class"`
-	SystemAccount           string  `json:"SystemAccount"`
-	EnablePaymentsToAccount bool    `json:"EnablePaymentsToAccount"`
-	ShowInExpenseClaims     bool    `json:"ShowInExpenseClaims"`
-	BankAccountType         string  `json:"BankAccountType"`
-	ReportingCode           string  `json:"ReportingCode"`
-	ReportingCodeName       string  `json:"ReportingCodeName"`
-	HasAttachments          bool    `json:"HasAttachments"`
-	UpdatedDateUTC          NetDate `json:"UpdatedDateUTC"`
-	AddToWatchlist          bool    `json:"AddToWatchlist"`
+	AccountID               *string  `json:"AccountID,omitempty"`
+	Code                    *string  `json:"Code,omitempty"`
+	Name                    *string  `json:"Name,omitempty"`
+	Status                  *string  `json:"Status,omitempty"`
+	Type                    *string  `json:"Type,omitempty"`
+	TaxType                 *string  `json:"TaxType,omitempty"`
+	Description             *string  `json:"Description,omitempty"`
+	Class                   *string  `json:"Class,omitempty"`
+	SystemAccount           *string  `json:"SystemAccount,omitempty"`
+	EnablePaymentsToAccount *bool    `json:"EnablePaymentsToAccount,omitempty"`
+	ShowInExpenseClaims     *bool    `json:"ShowInExpenseClaims,omitempty"`
+	BankAccountType         *string  `json:"BankAccountType,omitempty"`
+	ReportingCode           *string  `json:"ReportingCode,omitempty"`
+	ReportingCodeName       *string  `json:"ReportingCodeName,omitempty"`
+	HasAttachments          *bool    `json:"HasAttachments,omitempty"`
+	UpdatedDateUTC          *NetDate `json:"UpdatedDateUTC,omitempty"`
+	AddToWatchlist          *bool    `json:"AddToWatchlist,omitempty"`
 }
 
