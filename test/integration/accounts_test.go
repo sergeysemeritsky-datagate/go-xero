@@ -18,7 +18,7 @@ func TestAccounts(t *testing.T) {
 		t.Fatalf("Accounts.GetAccounts returned no accounts")
 	}
 
-	if accounts.Accounts[0].AccountID == "" {
+	if accounts.Accounts[0].AccountID == nil {
 		t.Errorf("Accounts.GetAccounts returned account with no ID")
 	}
 }

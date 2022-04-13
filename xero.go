@@ -30,6 +30,7 @@ type Client struct {
 
 	common service
 
+	Tenants       *TenantsService
 	Connections   *ConnectionsService
 	Accounts      *AccountsService
 	Invoices      *InvoicesService
@@ -82,6 +83,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c := &Client{client: httpClient, BaseURL: baseURL}
 	c.common.client = c
 
+	c.Tenants = (*TenantsService)(&c.common)
 	c.Connections = (*ConnectionsService)(&c.common)
 	c.Accounts = (*AccountsService)(&c.common)
 	c.Invoices = (*InvoicesService)(&c.common)
