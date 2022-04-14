@@ -22,6 +22,20 @@ func (s *TenantsService) GetTenants(ctx context.Context) ([]*Tenant, *http.Respo
 	return c, resp, nil
 }
 
+func (s *TenantsService) Disconnect(ctx context.Context, connectionId string) (*http.Response, error) {
+	req, err := s.client.NewRequest("DELETE", "connections/"+connectionId, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	resp, err := s.client.Do(ctx, req, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return resp, nil
+}
+
 type Tenant struct {
 	Id             string `json:"id"`
 	AuthEventId    string `json:"authEventId"`
