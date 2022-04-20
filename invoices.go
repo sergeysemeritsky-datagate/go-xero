@@ -48,6 +48,14 @@ func (s *InvoicesService) GetInvoices(ctx context.Context, opts *InvoiceListOpti
 	return c, resp, nil
 }
 
+func (s *InvoicesService) GetInvoiceHistory(ctx context.Context, id string) (*HistoryRecords, *http.Response, error) {
+	return getHistory(ctx, s.client, "invoices", id)
+}
+
+func (s *InvoicesService) AddInvoiceHistoryRecord(ctx context.Context, id string, records *HistoryRecords) (*http.Response, error) {
+	return addHistory(ctx, s.client, "invoices", id, records)
+}
+
 func (s *InvoicesService) CreateInvoice(ctx context.Context, inv *Invoice) (*InvoicesResponse, *http.Response, error) {
 	req, err := s.client.NewRequest("PUT", "api.xro/2.0/invoices", inv)
 	if err != nil {
