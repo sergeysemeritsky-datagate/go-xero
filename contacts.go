@@ -73,6 +73,8 @@ type ContactsRequest struct {
 
 type Contact struct {
 	ContactId                 *string            `json:"ContactId,omitempty"`
+	ContactNumber             *string            `json:"ContactNumber,omitempty"`
+	AccountNumber             *string            `json:"AccountNumber,omitempty"`
 	ContactStatus             *string            `json:"ContactStatus,omitempty"`
 	Name                      *string            `json:"Name,omitempty"`
 	FirstName                 *string            `json:"FirstName,omitempty"`

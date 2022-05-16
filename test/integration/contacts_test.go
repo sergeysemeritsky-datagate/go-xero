@@ -7,7 +7,7 @@ import (
 )
 
 func Test_GetContacts(t *testing.T) {
-	contacts, _, err := client.Contacts.GetContacts(context.TODO(),
+	contacts, _, err := client.Contacts.GetContacts(context.Background(),
 		&xero.ContactListOptions{ListOptions: xero.ListOptions{
 			Where: "ContactStatus==\"ARCHIVED\" && (IsSupplier==false && IsCustomer == false)"},
 			IncludeArchived: true,
