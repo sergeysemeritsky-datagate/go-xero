@@ -2,6 +2,7 @@ package xero
 
 import (
 	"context"
+	"io"
 	"net/http"
 	"time"
 )
@@ -118,6 +119,18 @@ func (s *InvoicesService) UpdateInvoices(ctx context.Context, inv []*Invoice) (*
 	}
 
 	return c, resp, nil
+}
+
+func (s *InvoicesService) GetAttachments(ctx context.Context, id string) (*AttachmentsResponse, *http.Response, error) {
+	return getAttachments(ctx, s.client, "invoices", id)
+}
+
+func (s *InvoicesService) GetAttachment(ctx context.Context, id, filename string, w io.Writer) (*http.Response, error) {
+	return getAttachment(ctx, s.client, "invoices", id, filename, w)
+}
+
+func (s *InvoicesService) UploadAttachment(ctx context.Context, id, filename string, includeOnline bool, r io.Reader) (*http.Response, error) {
+	return uploadAttachment(ctx, s.client, "invoices", id, filename, includeOnline, r)
 }
 
 type InvoicesResponse struct {

@@ -3,12 +3,23 @@ package integration
 import (
 	"context"
 	"fmt"
-	"github.com/glebteterin/go-xero"
+	"io/ioutil"
+	"log"
+	"os"
 	"testing"
+
+	"github.com/glebteterin/go-xero"
 )
 
 func Test_Invoices(t *testing.T) {
 	ctx := context.TODO()
+	f, err := os.Open("invoice.pdf")
+	if err != nil {
+		t.Fatalf("Error opening invoice.pdf: %v", err)
+	}
+	defer func() {
+		_ = f.Close()
+	}()
 
 	// Create invoice
 	inv := &xero.Invoice{
@@ -39,6 +50,7 @@ func Test_Invoices(t *testing.T) {
 	}
 
 	newInvoice := invoices.Invoices[0]
+	log.Println(*newInvoice.InvoiceNumber)
 
 	// List invoices
 
@@ -101,6 +113,58 @@ func Test_Invoices(t *testing.T) {
 
 	if *invoices.Invoices[0].TotalTax != (newUnitAmount * 0.15) {
 		t.Fatalf("Updated invoice TotalTax is %v, want %v", *invoices.Invoices[0].TotalTax, (newUnitAmount * 0.15))
+	}
+
+	// Upload Attachment
+
+	_, err = client.Invoices.UploadAttachment(ctx, *newInvoice.InvoiceID, "invoice.pdf", true, f)
+	if err != nil {
+		t.Fatalf("Invoices.UploadAttachment returned error: %v", err)
+	}
+
+	// Get Attachments
+
+	attachments, _, err := client.Invoices.GetAttachments(ctx, *newInvoice.InvoiceID)
+	if err != nil {
+		t.Fatalf("Invoices.GetAttachments returned error: %v", err)
+	}
+	if len(attachments.Attachments) == 0 {
+		t.Fatalf("Invoices.GetAttachments returned no attachments")
+	}
+
+	var invoiceAttachment *xero.Attachment
+	for _, a := range attachments.Attachments {
+		if *a.FileName == "invoice.pdf" {
+			invoiceAttachment = a
+		}
+	}
+	if invoiceAttachment == nil {
+		t.Fatalf("Attachment invoice.pdf not found")
+	}
+	if invoiceAttachment.IncludeOnline == nil || *invoiceAttachment.IncludeOnline == false {
+		t.Fatalf("Attachment invoice.pdf is not marked as include online")
+	}
+
+	tmpFile, err := ioutil.TempFile("", "")
+	if err != nil {
+		t.Fatalf("ioutil.TempFile returned error: %v", err)
+	}
+	defer func() {
+		_ = tmpFile.Close()
+	}()
+	_, err = client.Invoices.GetAttachment(ctx, *newInvoice.InvoiceID, "invoice.pdf", tmpFile)
+	if err != nil {
+		t.Fatalf("Invoices.GetAttachment returned error: %v", err)
+	}
+	if err := tmpFile.Close(); err != nil {
+		t.Fatalf("error closing tmp file: %v", err)
+	}
+	same, err := FileCmp(f.Name(), tmpFile.Name(), 0)
+	if err != nil {
+		t.Fatalf("FileCmp returned error: %v", err)
+	}
+	if !same {
+		t.Fatalf("downloaded attachment is not the same as original file")
 	}
 
 	// Delete invoice
