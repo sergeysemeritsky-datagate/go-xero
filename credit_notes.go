@@ -2,6 +2,7 @@ package xero
 
 import (
 	"context"
+	"io"
 	"net/http"
 )
 
@@ -25,6 +26,18 @@ func (s *CreditNotesService) CreateCreditNotes(ctx context.Context, notes []*Cre
 	}
 
 	return c, resp, nil
+}
+
+func (s *CreditNotesService) GetAttachments(ctx context.Context, id string) (*AttachmentsResponse, *http.Response, error) {
+	return getAttachments(ctx, s.client, "creditnotes", id)
+}
+
+func (s *CreditNotesService) GetAttachment(ctx context.Context, id, filename string, w io.Writer) (*http.Response, error) {
+	return getAttachment(ctx, s.client, "creditnotes", id, filename, w)
+}
+
+func (s *CreditNotesService) UploadAttachment(ctx context.Context, id, filename string, includeOnline bool, r io.Reader) (*http.Response, error) {
+	return uploadAttachment(ctx, s.client, "creditnotes", id, filename, includeOnline, r)
 }
 
 type CreditNotesResponse struct {
