@@ -4,12 +4,45 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"time"
 )
 
 //TODO: add more methods
 //TODO: test all mathods
 
 type CreditNotesService service
+
+type CreditNoteListOptions struct {
+	ModifiedAfter time.Time `url:"-"`
+
+	// For paginated result sets, page of results to retrieve.
+	Page int `url:"page,omitempty"`
+
+	ListOptions
+}
+
+func (s *CreditNotesService) GetCreditNotes(ctx context.Context, opts *CreditNoteListOptions) (*CreditNotesResponse, *http.Response, error) {
+	u := "api.xro/2.0/creditnotes"
+	u, err := addOptions(u, opts)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	req, err := s.client.NewRequest("GET", u, nil)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	addModifiedSinceHeader(req, opts.ModifiedAfter)
+
+	var c *CreditNotesResponse
+	resp, err := s.client.Do(ctx, req, &c)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	return c, resp, nil
+}
 
 func (s *CreditNotesService) CreateCreditNotes(ctx context.Context, notes []*CreditNote) (*CreditNotesResponse, *http.Response, error) {
 	batch := &CreditNotesBatch{CreditNotes: notes}

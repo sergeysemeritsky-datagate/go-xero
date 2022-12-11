@@ -162,9 +162,10 @@ type Invoice struct {
 	UpdatedDateUTC  *NetDate `json:"UpdatedDateUTC,omitempty"` // "/Date(1496620800000+0000)/"
 	BrandingThemeID *string  `json:"BrandingThemeID,omitempty"`
 
-	Contact   *Contact    `json:"Contact,omitempty"`
-	LineItems []*LineItem `json:"LineItems,omitempty"`
-	Payments  []*Payment  `json:"Payments,omitempty"`
+	Contact      *Contact       `json:"Contact,omitempty"`
+	LineItems    []*LineItem    `json:"LineItems,omitempty"`
+	Payments     []*Payment     `json:"Payments,omitempty"`
+	Overpayments []*Overpayment `json:"Overpayments,omitempty"`
 
 	ValidationErrors      []*ValidationError `json:"ValidationErrors,omitempty"`
 	StatusAttributeString string             `json:"StatusAttributeString,omitempty"`

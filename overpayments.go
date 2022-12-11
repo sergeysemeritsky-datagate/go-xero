@@ -4,7 +4,7 @@ type Overpayment struct {
 	OverpaymentId   *string       `json:"OverpaymentID,omitempty"`
 	Type            *string       `json:"Type,omitempty"`
 	Contact         *Contact      `json:"Contact,omitempty"`
-	Date            *string       `json:"Date,omitempty"`
+	Date            *NetDate      `json:"Date,omitempty"`
 	Status          *string       `json:"Status,omitempty"`
 	LineAmountTypes *string       `json:"LineAmountTypes,omitempty"`
 	LineItems       []*LineItem   `json:"LineItems,omitempty"`
