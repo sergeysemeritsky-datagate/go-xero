@@ -16,6 +16,7 @@ type Overpayment struct {
 	CurrencyRate    *float64      `json:"CurrencyRate,omitempty"`
 	RemainingCredit *float64      `json:"RemainingCredit,omitempty"`
 	Allocations     []*Allocation `json:"Allocations,omitempty"`
+	AppliedAmount   *float64      `json:"AppliedAmount,omitempty"`
 	Payments        []*Payment    `json:"Payments,omitempty"`
 	HasAttachments  *bool         `json:"HasAttachments,omitempty"`
 }
