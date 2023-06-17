@@ -22,7 +22,7 @@ type Overpayment struct {
 }
 
 type Allocation struct {
-	Amount     *string  `json:"Amount,omitempty"`
+	Amount     *float64 `json:"Amount,omitempty"`
 	DateString *string  `json:"DateString,omitempty"`
 	Date       *NetDate `json:"Date,omitempty"`
 	Invoice    *Invoice `json:"Invoice,omitempty"`
