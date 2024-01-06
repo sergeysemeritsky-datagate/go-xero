@@ -31,14 +31,15 @@ type Client struct {
 
 	common service
 
-	Tenants       *TenantsService
-	Connections   *ConnectionsService
-	Accounts      *AccountsService
-	Invoices      *InvoicesService
-	Contacts      *ContactsService
-	ContactGroups *ContactGroupsService
-	CreditNotes   *CreditNotesService
-	Payments      *PaymentsService
+	Tenants            *TenantsService
+	Connections        *ConnectionsService
+	Accounts           *AccountsService
+	Invoices           *InvoicesService
+	Contacts           *ContactsService
+	ContactGroups      *ContactGroupsService
+	CreditNotes        *CreditNotesService
+	Payments           *PaymentsService
+	TrackingCategories *TrackingCategoriesService
 }
 
 type service struct {
@@ -92,6 +93,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c.ContactGroups = (*ContactGroupsService)(&c.common)
 	c.CreditNotes = (*CreditNotesService)(&c.common)
 	c.Payments = (*PaymentsService)(&c.common)
+	c.TrackingCategories = (*TrackingCategoriesService)(&c.common)
 
 	return c
 }
