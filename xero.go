@@ -210,6 +210,27 @@ type ValidationError struct {
 }
 
 func (r *ErrorResponse) Error() string {
+	var elementsDetails string
+
+	// Loop through each element and collect ValidationErrors
+	for _, element := range r.Elements {
+		for _, ve := range element.ValidationErrors {
+			if elementsDetails == "" {
+				elementsDetails = fmt.Sprintf("Validation Errors: %s", ve.Message)
+			} else {
+				elementsDetails = fmt.Sprintf("%s, %s", elementsDetails, ve.Message)
+			}
+		}
+	}
+
+	// If there are ValidationErrors, add them to the message
+	if elementsDetails != "" {
+		return fmt.Sprintf("%v %v %d: %v %v - %v - %v",
+			r.Response.Request.Method, r.Response.Request.URL, r.Response.StatusCode,
+			r.ErrorNumber, r.Type, r.Message, elementsDetails)
+	}
+
+	// If there are no ValidationErrors, return the default message
 	return fmt.Sprintf("%v %v %d: %v %v - %v",
 		r.Response.Request.Method, r.Response.Request.URL, r.Response.StatusCode,
 		r.ErrorNumber, r.Type, r.Message)
