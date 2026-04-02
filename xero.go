@@ -41,6 +41,7 @@ type Client struct {
 	Payments           *PaymentsService
 	TrackingCategories *TrackingCategoriesService
 	BrandingThemes     *BrandingThemesService
+	Items              *ItemsService
 }
 
 type service struct {
@@ -96,6 +97,7 @@ func NewClient(httpClient *http.Client) *Client {
 	c.Payments = (*PaymentsService)(&c.common)
 	c.TrackingCategories = (*TrackingCategoriesService)(&c.common)
 	c.BrandingThemes = (*BrandingThemesService)(&c.common)
+	c.Items = (*ItemsService)(&c.common)
 
 	return c
 }
